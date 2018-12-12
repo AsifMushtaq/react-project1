@@ -1,6 +1,38 @@
 import React from 'react';
+import * as BooksAPI from './BooksAPI';
+import Book from './Book';
 
 class Search extends React.Component {
+    state = {
+      searchResults: []
+    }
+
+    search = (e) => {
+      const query = e.target.value;
+
+      if (query){
+        BooksAPI.search(query, 25)
+          .then(searchResults => {
+            
+            if (!searchResults || searchResults.error) {
+              this.setState({searchResults: []});
+              return;
+            }
+
+            searchResults = searchResults.map((book) => {
+              book.shelf = this.getShelf(book);
+              return book;
+            });
+
+            this.setState({searchResults});
+          })
+      }
+    }
+    
+    getShelf = (book) => {
+      var existingBook = this.props.books.find(c => c.id === book.id);
+      return  existingBook ? existingBook.shelf : "none";
+    }
 
     render() {
         return (
@@ -16,12 +48,23 @@ class Search extends React.Component {
                   However, remember that the BooksAPI.search method DOES search by title or author. So, don't worry if
                   you don't find a specific author or title. Every search is limited by search terms.
                 */}
-                <input type="text" placeholder="Search by title or author"/>
+                <input type="text" placeholder="Search by title or author" onChange={this.search}/>
 
               </div>
             </div>
             <div className="search-books-results">
-              <ol className="books-grid"></ol>
+              <ol className="books-grid">
+                {
+                   this.state.searchResults && this
+                    .state
+                    .searchResults
+                    .map((book, index) => (
+                        <li key={book.id + index}>
+                            <Book book={book} onShelfChange={this.props.onShelfChange}/>
+                        </li>
+                    ))
+                }
+              </ol>
             </div>
           </div>
         );

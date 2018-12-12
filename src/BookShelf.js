@@ -5,12 +5,12 @@ import PropTypes from "prop-types";
 class BookShelf extends React.Component {
   static propTypes = {
     books: PropTypes.array.isRequired,
-    bookShelf: PropTypes.isRequired,
-    title: PropTypes.isRequired
+    bookShelf: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired
   };
 
   render() {
-    const { books, bookShelf, title } = this.props;
+    const { books, bookShelf, title, onShelfChanged } = this.props;
     const showingBooks = books.filter(book => book.shelf === bookShelf);
     return (
       <div>
@@ -18,8 +18,8 @@ class BookShelf extends React.Component {
         <div className="bookshelf-books">
           <ol className="books-grid">
             {showingBooks.map(book => (
-              <li>
-                <Book book={book} />
+              <li key={book.id}>
+                <Book book={book} onShelfChanged={onShelfChanged}/>
               </li>
             ))}
           </ol>
