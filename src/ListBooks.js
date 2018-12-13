@@ -3,7 +3,7 @@ import BookShelf from './BookShelf'
 import {Link} from 'react-router-dom'
 
 class ListBooks extends React.Component {
-
+  shelfBooks = (bookShelf) => this.props.books.filter(book => book.shelf === bookShelf);
     render () {
         const { books, onShelfChanged } = this.props;
 
@@ -14,9 +14,9 @@ class ListBooks extends React.Component {
             </div>
             <div className="list-books-content">
               <div>
-                <BookShelf books={books} onShelfChanged={onShelfChanged} bookShelf='currentlyReading' title='Currently Reading' />
-                <BookShelf books={books} onShelfChanged={onShelfChanged} bookShelf='wantToRead' title='Want To Read' />
-                <BookShelf books={books} onShelfChanged={onShelfChanged} bookShelf='read' title='Read' />
+                <BookShelf books={this.shelfBooks('currentlyReading')} onShelfChanged={onShelfChanged} title='Currently Reading' />
+                <BookShelf books={this.shelfBooks('wantToRead')} onShelfChanged={onShelfChanged} title='Want To Read' />
+                <BookShelf books={this.shelfBooks('read')} onShelfChanged={onShelfChanged} title='Read' />
               </div>
             </div>
             <div className="open-search">
