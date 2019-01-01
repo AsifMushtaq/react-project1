@@ -1,7 +1,7 @@
 import React from 'react';
 import * as BooksAPI from './BooksAPI';
 import Book from './Book';
-import {Link} from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 class Search extends React.Component {
     state = {
@@ -27,6 +27,8 @@ class Search extends React.Component {
 
             this.setState({searchResults});
           })
+      } else {
+        this.setState({ searchResults: [] });
       }
     }
     

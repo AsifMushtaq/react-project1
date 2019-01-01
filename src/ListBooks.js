@@ -1,6 +1,6 @@
 import React from 'react'
 import BookShelf from './BookShelf'
-import {Link} from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 class ListBooks extends React.Component {
   shelfBooks = (bookShelf) => this.props.books.filter(book => book.shelf === bookShelf);
